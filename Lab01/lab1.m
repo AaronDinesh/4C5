@@ -114,7 +114,6 @@ title(sprintf('Moving Average Window Size %d',windowSize));
 % end
 % fig.Visible = 'on';
 % close(v);
-
 %% Functions
 function seq = delta(n)
     seq = n == 0;
