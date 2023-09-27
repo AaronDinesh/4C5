@@ -1,30 +1,9 @@
-% function [y, nOut] = AddSeq(x1, t1, x2, t2)
-%     figure
-%     hold on
-%     plot(t1, x1)
-%     plot(t2,x2)
-% 
-%     nOut = min(t1(1),t2(1)):1:max(t1(length(t1)),t2(length(t2)));
-%     offset1 = strfind(erase(strjoin(string(nOut),''),'-'), erase(strjoin(string(t1),''),'-')) - 1;
-%     x1 = horzcat(zeros(1,offset1),x1);
-%     x1 = horzcat(x1, zeros(1,max(length(nOut) - length(x1),0)));
-%     erase(strjoin(string(nOut),''),'-')
-%     offset2 = strfind(erase(strjoin(string(nOut),''),'-'), erase(strjoin(string(t2),''),'-')) - 1;
-%     x2 = horzcat(zeros(1,offset2), x2);
-%     x2 = horzcat(x2, zeros(1,max(length(nOut) - length(x2),0)));
-%     y = x1+x2;
-% 
-%     plot(nOut, y)
-%     hold off
-% end
-
-
-function [y, nOut] = addSeq(x1, t1, x2, t2)
+function [y, nOut] = addSeq(x1, t1, x2, t2, stepSize)
     figure
     hold on
-    stem(t1, x1)
-    stem(t2,x2)
-    nOut = min(t1(1),t2(1)):1:max(t1(length(t1)),t2(length(t2)));
+    plot(t1, x1)
+    plot(t2,x2)
+    nOut = min(t1(1),t2(1)):stepSize:max(t1(length(t1)),t2(length(t2)));
     x1 = horzcat(x1, zeros(1,length(nOut) - length(t1)));
     t1 = horzcat(t1, zeros(1,length(nOut) - length(t1)));
     
@@ -42,7 +21,7 @@ function [y, nOut] = addSeq(x1, t1, x2, t2)
 
     y = x1+x2;
 
-    stem(nOut,y)
+    plot(nOut,y)
     title ('Time Aligned Sequences') % Figure title
     xlabel ('Time')
     ylabel ('Amplitude')

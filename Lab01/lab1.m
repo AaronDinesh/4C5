@@ -4,6 +4,9 @@ clear
 n = -10:1:10;
 
 %% Exe 2.2
+close all
+clear
+
 hold on
 out = delta(n) + 2.*delta(n-1) - delta(n-3) + delta(n-4) + 2.*delta(n-5);
 stem(n, out)
@@ -13,6 +16,9 @@ ylabel ('Amplitude')
 hold off
 
 %% Exe2.3
+close all
+clear
+
 figure
 subplot(1,3,1)
 % Delay the signal by 2
@@ -34,6 +40,9 @@ xlabel ('Time')
 ylabel ('Amplitude')
 
 %% Exe2.4
+close all
+clear
+
 n1 = -5:1:5;
 out1 = -1.*delta(n1-1) +3.*delta(n1-2);
 out2 = 3.*delta(n1-1)+3.*delta(n1-2)+delta(n1-3)-2.*delta(n1-4);
@@ -58,6 +67,9 @@ xlabel ('Time')
 ylabel ('Amplitude')
 
 %% Exe 2.5
+close all
+clear
+
 t1 = -10:1:3;
 x1 = 1:1:length(t1);
 
@@ -67,6 +79,9 @@ x2 = 1:1:length(t2);
 [y, nOut] = addSeq(x1, t1, x2, t2);
 
 %% Exe 2.6
+close all
+clear
+
 t1 = -4:1:4;
 x = delta(t1+3) + delta(t1+1) + delta(t1-1) + delta(t1-3);
 h = delta(t1);
@@ -84,6 +99,9 @@ hold off
 
 
 %% Optional Exe 2.7
+close all
+clear
+
 T = readtable('IRL_DLY_RR_2021_grid.csv') ; % built in matlab function to
 Tarray = table2array (T) ; % strip headers
 seq = Tarray(1,3:end);
@@ -124,7 +142,7 @@ function [h, nOut] = movAvg(windowSize)
     h(1:windowSize)  = 1/windowSize;   
 end
 
-function [aX1, aX2, nOut] = alignSeq(x1, t1, x2, t2)
+function [aX1, aX2, nOut] = alignSeq(x1, t1, x2, t2,1)
     nOut = min(t1(1),t2(1)):1:max(t1(length(t1)),t2(length(t2)));
     x1 = horzcat(x1, zeros(1,length(nOut) - length(t1)));
     t1 = horzcat(t1, zeros(1,length(nOut) - length(t1)));
