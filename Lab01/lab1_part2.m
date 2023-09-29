@@ -75,9 +75,8 @@ y1 = sin(2*pi*fo1*t1);
 
 %y2
 fo2 = 400;
-t2 = 0:1/fs:6;
+t2 = 0:1/fs:4;
 y2 =  sin(2*pi*t2*fo2);
-y2 = (delayseq(y2',2*fs))';
 
 %y3
 fo3 = 400;
@@ -85,15 +84,126 @@ t3 = 0:1/fs:3;
 y3 = sin(2*pi*t3*fo3);
 y3 = (delayseq(y3',1*fs))';
 
-[tempY,tempNOut] = addSeq(x0, t0, y1, t1, 1/fs);
-[tempY,tempNOut] = addSeq(tempY, tempNOut, y2, t2, 1/fs);
-[finalY,finalNOut] = addSeq(tempY, tempNOut, y3, t3, 1/fs);
+[tempY,tempNOut] = addMulSeq(x0, t0, y1, t1, 1/fs, 0);
+[tempY1,tempNOut1] = addMulSeq(tempY, tempNOut, y2, t2, 1/fs, 0);
+[finalY, finalNOut] = addMulSeq(tempY1, tempNOut1, y3, t3, 1/fs, 0);
+%% Exe 4.9
+close all
+clear
+ 
+fs = 8000;
+
+fo0 = 300;
+t0 = 0:1/fs:4;
+x0 = sin(2*pi*t0*fo0);
+x0 = (delayseq(x0',2*fs))';
+
+%y1
+fo1 = 400; 
+t1 = 0:1/fs:2;
+y1 = sin(2*pi*fo1*t1);
+
+%y2
+fo2 = 400;
+t2 = 0:1/fs:4;
+y2 =  sin(2*pi*t2*fo2);
+
+%y3
+fo3 = 400;
+t3 = 0:1/fs:3;
+y3 = sin(2*pi*t3*fo3);
+y3 = (delayseq(y3',1*fs))';
+
+%Multiply the sequences elementwise
+[tempY,tempNOut] = addMulSeq(x0, t0, y1, t1, 1/fs, 1);
+[tempY1,tempNOut1] = addMulSeq(tempY, tempNOut, y2, t2, 1/fs, 1);
+[finalY, finalNOut] = addMulSeq(tempY1, tempNOut1, y3, t3, 1/fs, 1);
+
+%% Exe 4.10
+close all
+clear
+ 
+fs = 8000;
+
+fo0 = 300;
+t0 = 0:1/fs:4;
+x0 = sin(2*pi*t0*fo0);
+x0 = (delayseq(x0',2*fs))';
+
+%y1
+fo1 = 400; 
+t1 = 0:1/fs:2;
+y1 = sin(2*pi*fo1*t1);
+
+%y2
+fo2 = 400;
+t2 = 0:1/fs:4;
+y2 =  sin(2*pi*t2*fo2);
+
+%y3
+fo3 = 400;
+t3 = 0:1/fs:3;
+y3 = sin(2*pi*t3*fo3);
+y3 = (delayseq(y3',1*fs))';
+
+%Convolve the sequences
+[tempY,tempNOut] = convSeq(x0, t0, y1, t1, 1/fs);
+max(tempY)
+[tempY1,tempNOut1] = convSeq(tempY, tempNOut, y2, t2, 1/fs);
+[finalY, finalNOut] = convSeq(tempY1, tempNOut1, y3, t3, 1/fs);
+%% Helper Functions
+
+function [y, nOut] = addMulSeq(x1, t1, x2, t2, stepSize, addMul)
+    figure
+    hold on
+    % plot(t1, x1)
+    % plot(t2,x2)
+    nOut = min(t1(1), t2(1)):stepSize:max(t1(length(t1)), t2(length(t2)));
+    x1 = horzcat(x1, zeros(1,length(nOut) - length(x1)));
+    x1 = circshift(x1, find(nOut == t1(1)) - 1);
+
+    x2 = horzcat(x2, zeros(1,length(nOut) - length(x2)));
+    x2 = circshift(x2, find(nOut == t2(1)) - 1);
+
+    if(addMul == 0)
+        y = x1+x2;
+    elseif(addMul == 1)
+        y = x1.*x2;
+    else
+        error("Incorrect value %d for addMul option\n", addMul);
+    end
+    
+    plot(nOut,y);
+
+    if(addMul == 0)
+        title ('Addititon of Seqeunces'); % Figure title
+        legend("x1[n]+x2[n]");
+    else
+        title ('Elementwise Multiplication of Sequences'); % Figure title
+        legend("x1[n].*x2[n]");
+    end
+
+    xlabel ('Time (seconds)')
+    ylabel ('Amplitude');
+    
+    hold off
+end
 
 
-
-
-
-
+function [y, nOut] = convSeq(x1, t1, x2, t2, stepSize)
+    y = conv(x1, x2);
+    nOut = min(t1(1), t2(1)):stepSize: length(y)*stepSize;
+    nOut(end) = [];
+    
+    figure
+    hold on
+    plot(nOut,y)
+    title ('Convolution of Two Signals') % Figure title
+    xlabel ('Time (seconds)')
+    ylabel ('Amplitude')
+    legend("x1[n]*x2[n]")
+    hold off
+end
 
 
 
