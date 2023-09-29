@@ -1,8 +1,17 @@
 function [y, nOut] = addSeq(x1, t1, x2, t2)
     figure
     hold on
-    % plot(t1, x1)
-    % plot(t2,x2)
+    subplot(3,1,1)
+    stem(t1, x1)
+    title("Plot of x1[n]")
+    xlabel ('Time (Seconds)')
+    ylabel ('Amplitude')
+
+    subplot(3,1,2)
+    stem(t2,x2)
+    title("Plot of x2[n]")
+    xlabel ('Time (Seconds)')
+    ylabel ('Amplitude')
     ot1len = length(t1);
     ot2len = length(t2);
     nOut = min(t1(1),t2(1)):1:max(t1(length(t1)),t2(length(t2)));
@@ -23,11 +32,12 @@ function [y, nOut] = addSeq(x1, t1, x2, t2)
     end
 
     y = x1+x2;
-
-    plot(nOut,y)
-    title ('Time Aligned Sequences') % Figure title
+    
+    subplot(3,1,3)
+    stem(nOut,y)
+    title ('Sum of Time Aligned Sequences') % Figure title
     xlabel ('Time')
     ylabel ('Amplitude')
-    legend("x1[n]", "x2[n]", "x1[n]+x2[n]")
+    legend("x1[n]+x2[n]")
     hold off
 end

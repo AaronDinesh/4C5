@@ -20,20 +20,20 @@ close all
 clear
 
 figure
-subplot(1,3,1)
+subplot(3,1,1)
 % Delay the signal by 2
 stem(n, out)
 title ('Exercise 2.3 - No Time Shift') % Figure title
 xlabel ('Time')
 ylabel ('Amplitude')
 
-subplot(1,3,2)
+subplot(3,1,2)
 stem(n, delayseq(out', 2))
 title ('Exercise 2.3 - Delay by 2 ') % Figure title
 xlabel ('Time')
 ylabel ('Amplitude')
 
-subplot(1,3,3)
+subplot(3,1,3)
 stem(n, delayseq(out', -3))
 title ('Exercise 2.3 - Advance by 3 ') % Figure title
 xlabel ('Time')
@@ -47,20 +47,20 @@ n1 = -5:1:5;
 out1 = -1.*delta(n1-1) +3.*delta(n1-2);
 out2 = 3.*delta(n1-1)+3.*delta(n1-2)+delta(n1-3)-2.*delta(n1-4);
 figure
-subplot(1,3,1)
+subplot(3,1,1)
 % Delay the signal by 2
 stem(n1, out1)
 title ('Exercise 2.4 - x1[n]') % Figure title
 xlabel ('Time')
 ylabel ('Amplitude')
 
-subplot(1,3,2)
+subplot(3,1,2)
 stem(n1,out2)
 title ('Exercise 2.4 - x2[n]') % Figure title
 xlabel ('Time')
 ylabel ('Amplitude')
 
-subplot(1,3,3)
+subplot(3,1,3)
 stem(n1, out1+out2)
 title ('Exercise 2.4 - x1[n]+x2[n]') % Figure title
 xlabel ('Time')
@@ -88,6 +88,7 @@ h = delta(t1);
 y = conv(x,h);
 figure
 hold on
+
 stem(t1,x)
 stem(t1,h)
 stem(y)
@@ -132,6 +133,8 @@ title(sprintf('Moving Average Window Size %d',windowSize));
 % end
 % fig.Visible = 'on';
 % close(v);
+
+
 %% Functions
 function seq = delta(n)
     seq = n == 0;
@@ -140,27 +143,6 @@ end
 function [h, nOut] = movAvg(windowSize)
     nOut = 1:1:windowSize;
     h(1:windowSize)  = 1/windowSize;   
-end
-
-function [aX1, aX2, nOut] = alignSeq(x1, t1, x2, t2,1)
-    nOut = min(t1(1),t2(1)):1:max(t1(length(t1)),t2(length(t2)));
-    x1 = horzcat(x1, zeros(1,length(nOut) - length(t1)));
-    t1 = horzcat(t1, zeros(1,length(nOut) - length(t1)));
-
-    while(sum(nOut == t1) ~= 0)
-        t1 = circshift(t1,1);
-        x1 = circshift(x1,1);
-    end
-    x2 = horzcat(x2, zeros(1,length(nOut) - length(t2)));
-    t2 = horzcat(t2, zeros(1,length(nOut) - length(t2)));
-
-    while(sum(nOut == t2) ~= 0)
-        t2 = circshift(t2,1);
-        x2 = circshift(x2,1);
-    end
-
-    aX1 = x1;
-    aX2 = x2;
 end
 
 

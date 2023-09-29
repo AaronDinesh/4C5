@@ -67,6 +67,7 @@ fo0 = 300;
 t0 = 0:1/fs:4;
 x0 = sin(2*pi*t0*fo0);
 x0 = (delayseq(x0',2*fs))';
+plot(t0, x0);
 
 %y1
 fo1 = 400; 
@@ -148,9 +149,23 @@ y3 = (delayseq(y3',1*fs))';
 
 %Convolve the sequences
 [tempY,tempNOut] = convSeq(x0, t0, y1, t1, 1/fs);
-max(tempY)
-[tempY1,tempNOut1] = convSeq(tempY, tempNOut, y2, t2, 1/fs);
-[finalY, finalNOut] = convSeq(tempY1, tempNOut1, y3, t3, 1/fs);
+figure
+subplplot(3,1,1)
+stem(t0,x0)
+title("Sine Wave 300Hz 2sec Delay")
+xlabel("Time (Seconds)")
+ylabel("Amplitude")
+
+subplot(3,1,2)
+stem(t1, y1)
+title("Sine Wave 400Hz 0sec Delay")
+xlabel("Time (Seconds)")
+ylabel("Amplitude")
+
+
+
+[tempY1,tempNOut1] = convSeq(x0, t0, y2, t2, 1/fs);
+[finalY, finalNOut] = convSeq(x0, t0, y3, t3, 1/fs);
 %% Helper Functions
 
 function [y, nOut] = addMulSeq(x1, t1, x2, t2, stepSize, addMul)
@@ -194,15 +209,6 @@ function [y, nOut] = convSeq(x1, t1, x2, t2, stepSize)
     y = conv(x1, x2);
     nOut = min(t1(1), t2(1)):stepSize: length(y)*stepSize;
     nOut(end) = [];
-    
-    figure
-    hold on
-    plot(nOut,y)
-    title ('Convolution of Two Signals') % Figure title
-    xlabel ('Time (seconds)')
-    ylabel ('Amplitude')
-    legend("x1[n]*x2[n]")
-    hold off
 end
 
 
