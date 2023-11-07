@@ -170,6 +170,7 @@ figure
 stem(seq, "Filled");
 ylabel("Rainfall in mm")
 title("Raw Data");
+xlim([0, 365])
 set(gca,'FontSize',15)
 set(gca,'FontName','Times New Roman')
 
@@ -179,6 +180,7 @@ windowSize = 3;
 y = conv(seq, hN);
 stem(y, "Filled");
 ylabel("Rainfall in mm")
+xlim([0, 365])
 title(sprintf('Moving Average Window Size %d',windowSize));
 set(gca,'FontSize',15)
 set(gca,'FontName','Times New Roman')
@@ -188,6 +190,7 @@ windowSize = 5;
 [hN, hNOut] = movAvg(windowSize);
 y = conv(seq, hN);
 stem(y, "Filled");
+xlim([0, 365])
 ylabel("Rainfall in mm")
 title(sprintf('Moving Average Window Size %d',windowSize));
 set(gca,'FontSize',15)
@@ -198,6 +201,7 @@ windowSize = 7;
 [hN, hNOut] = movAvg(windowSize);
 y = conv(seq, hN);
 stem(y, "Filled");
+xlim([0, 365])
 ylabel("Rainfall in mm")
 title(sprintf('Moving Average Window Size %d',windowSize));
 set(gca,'FontSize',15)
@@ -208,6 +212,7 @@ windowSize = 10;
 [hN, hNOut] = movAvg(windowSize);
 y = conv(seq, hN);
 stem(y, "Filled");
+xlim([0, 365])
 ylabel("Rainfall in mm")
 title(sprintf('Moving Average Window Size %d',windowSize));
 set(gca,'FontSize',15)
